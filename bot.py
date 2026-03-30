@@ -193,11 +193,13 @@ async def announce(interaction: discord.Interaction, message: str):
 async def on_ready():
     print(f"Logged in as {bot.user}")
 
-    guild = discord.Object(id=GUILD_ID)
-    await tree.sync(guild=guild)
+    try:
+        synced = await bot.tree.sync()
+        print(f"GLOBAL SYNC: {len(synced)} commands")
+    except Exception as e:
+        print(e)
 
     update_status.start()
-
 
 # -------------------------
 bot.run(TOKEN)
